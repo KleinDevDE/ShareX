@@ -121,32 +121,45 @@
     <Compile Include="Forms\ScreenRecordForm.Designer.cs">
       <DependentUpon>ScreenRecordForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ScrollingCaptureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ScrollingCaptureForm.Designer.cs">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ScrollingCaptureOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ScrollingCaptureOptionsForm.Designer.cs">
+      <DependentUpon>ScrollingCaptureOptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ScrollingCaptureRegionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ScrollingCaptureRegionForm.Designer.cs">
+      <DependentUpon>ScrollingCaptureRegionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\StickerForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\StickerForm.Designer.cs">
       <DependentUpon>StickerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\StickerImageListViewRenderer.cs" />
+    <Compile Include="Helpers\StickerImageListViewRenderer.cs" />
     <Compile Include="Forms\StickerPackForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\StickerPackForm.Designer.cs">
       <DependentUpon>StickerPackForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RegionHelpers\ImageEditorButton.cs" />
-    <Compile Include="RegionHelpers\ImageEditorScrollbar.cs" />
-    <Compile Include="RegionHelpers\ScrollbarManager.cs" />
+    <Compile Include="Helpers\ImageEditorButton.cs" />
+    <Compile Include="Helpers\ImageEditorScrollbar.cs" />
+    <Compile Include="Helpers\ScrollbarManager.cs" />
+    <Compile Include="Helpers\ScrollingCaptureManager.cs" />
     <Compile Include="Shapes\AnnotationOptions.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Forms\RegionCaptureTransparentForm.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ScrollingCaptureForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ScrollingCaptureForm.Designer.cs">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\TextDrawingInputBox.cs">
       <SubType>Form</SubType>
@@ -200,24 +213,24 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ScreenRecording\ImageCache.cs" />
-    <Compile Include="RegionHelpers\LocationInfo.cs" />
+    <Compile Include="Helpers\LocationInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Shapes\ShapeManager.cs" />
-    <Compile Include="RegionHelpers\ImageEditorControl.cs" />
+    <Compile Include="Helpers\ImageEditorControl.cs" />
     <Compile Include="Forms\RegionCaptureForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RegionHelpers\InputManager.cs" />
-    <Compile Include="RegionHelpers\MouseState.cs" />
-    <Compile Include="RegionHelpers\ResizeNode.cs" />
+    <Compile Include="Helpers\InputManager.cs" />
+    <Compile Include="Helpers\MouseState.cs" />
+    <Compile Include="Helpers\ResizeNode.cs" />
     <Compile Include="RegionCaptureTasks.cs" />
     <Compile Include="ScrollingCaptureOptions.cs" />
-    <Compile Include="RegionHelpers\SimpleWindowInfo.cs" />
-    <Compile Include="RegionHelpers\SnapSize.cs" />
+    <Compile Include="Helpers\SimpleWindowInfo.cs" />
+    <Compile Include="Helpers\SnapSize.cs" />
     <Compile Include="RegionCaptureOptions.cs" />
     <Compile Include="ScreenRecording\ScreenRecorder.cs" />
     <Compile Include="ScreenRecording\HardDiskCache.cs" />
@@ -225,8 +238,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screenshot_Transparent.cs" />
     <Compile Include="Animations\TextAnimation.cs" />
-    <Compile Include="RegionHelpers\WindowsList.cs" />
-    <Compile Include="RegionHelpers\WindowsRectangleList.cs" />
+    <Compile Include="Helpers\WindowsList.cs" />
+    <Compile Include="Helpers\WindowsRectangleList.cs" />
     <Compile Include="Shapes\Tool\CutOutTool.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -356,6 +369,9 @@
     <EmbeddedResource Include="Forms\CanvasSizeForm.fr.resx">
       <DependentUpon>CanvasSizeForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.he-IL.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\CanvasSizeForm.id-ID.resx">
       <DependentUpon>CanvasSizeForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -410,6 +426,9 @@
     <EmbeddedResource Include="Forms\EditorStartupForm.fr.resx">
       <DependentUpon>EditorStartupForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.he-IL.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditorStartupForm.id-ID.resx">
       <DependentUpon>EditorStartupForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -458,6 +477,9 @@
     <EmbeddedResource Include="Forms\FFmpegOptionsForm.fa-IR.resx">
       <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.he-IL.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FFmpegOptionsForm.id-ID.resx">
       <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -489,6 +511,9 @@
       <DependentUpon>ImageInsertForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageInsertForm.fr.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.he-IL.resx">
       <DependentUpon>ImageInsertForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageInsertForm.id-ID.resx">
@@ -545,6 +570,9 @@
     <EmbeddedResource Include="Forms\ImageSizeForm.fr.resx">
       <DependentUpon>ImageSizeForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.he-IL.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageSizeForm.id-ID.resx">
       <DependentUpon>ImageSizeForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -588,6 +616,9 @@
       <DependentUpon>NewImageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\NewImageForm.fr.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.he-IL.resx">
       <DependentUpon>NewImageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\NewImageForm.id-ID.resx">
@@ -656,6 +687,9 @@
     <EmbeddedResource Include="Forms\ScreenRecordForm.fr.resx">
       <DependentUpon>ScreenRecordForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScreenRecordForm.he-IL.resx">
+      <DependentUpon>ScreenRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ScreenRecordForm.hu.resx">
       <DependentUpon>ScreenRecordForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -707,65 +741,17 @@
     <EmbeddedResource Include="Forms\ScreenRecordForm.zh-TW.resx">
       <DependentUpon>ScreenRecordForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.de.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.es-MX.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.fa-IR.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.fr.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.id-ID.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.it-IT.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.ja-JP.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.ko-KR.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.nl-NL.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.pl.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.pt-BR.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.pt-PT.resx">
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.he-IL.resx">
       <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ScrollingCaptureForm.resx">
       <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.ro.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ScrollingCaptureOptionsForm.resx">
+      <DependentUpon>ScrollingCaptureOptionsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.ru.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.tr.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.uk.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.vi-VN.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.zh-CN.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ScrollingCaptureForm.zh-TW.resx">
-      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ScrollingCaptureRegionForm.resx">
+      <DependentUpon>ScrollingCaptureRegionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StickerForm.es-MX.resx">
       <DependentUpon>StickerForm.cs</DependentUpon>
@@ -774,6 +760,9 @@
       <DependentUpon>StickerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StickerForm.fr.resx">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerForm.he-IL.resx">
       <DependentUpon>StickerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StickerForm.ja-JP.resx">
@@ -822,6 +811,9 @@
       <DependentUpon>StickerPackForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StickerPackForm.fr.resx">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerPackForm.he-IL.resx">
       <DependentUpon>StickerPackForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StickerPackForm.ja-JP.resx">
@@ -873,6 +865,9 @@
       <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TextDrawingInputBox.fr.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.he-IL.resx">
       <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TextDrawingInputBox.id-ID.resx">
@@ -931,6 +926,7 @@
     <EmbeddedResource Include="Properties\Resources.fr.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.he-IL.resx" />
     <EmbeddedResource Include="Properties\Resources.hu.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1006,6 +1002,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\pencil--arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\control-pause.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

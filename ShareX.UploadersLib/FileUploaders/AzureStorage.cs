@@ -52,7 +52,7 @@ namespace ShareX.UploadersLib.FileUploaders
         public override GenericUploader CreateUploader(UploadersConfig config, TaskReferenceHelper taskInfo)
         {
             return new AzureStorage(config.AzureStorageAccountName, config.AzureStorageAccountAccessKey, config.AzureStorageContainer,
-                config.AzureStorageEnvironment, config.AzureStorageCustomDomain, config.AzureStorageUploadPath);
+                config.AzureStorageEnvironment, config.AzureStorageCustomDomain, config.AzureStorageUploadPath, config.AzureStorageCacheControl);
         }
 
         public override TabPage GetUploadersConfigTabPage(UploadersConfigForm form) => form.tpAzureStorage;
@@ -68,9 +68,10 @@ namespace ShareX.UploadersLib.FileUploaders
         public string AzureStorageEnvironment { get; private set; }
         public string AzureStorageCustomDomain { get; private set; }
         public string AzureStorageUploadPath { get; private set; }
+        public string AzureStorageCacheControl { get; private set; }
 
         public AzureStorage(string azureStorageAccountName, string azureStorageAccessKey, string azureStorageContainer, string azureStorageEnvironment,
-            string customDomain, string uploadPath)
+            string customDomain, string uploadPath, string cacheControl)
         {
             AzureStorageAccountName = azureStorageAccountName;
             AzureStorageAccountAccessKey = azureStorageAccessKey;
@@ -78,6 +79,7 @@ namespace ShareX.UploadersLib.FileUploaders
             AzureStorageEnvironment = (!string.IsNullOrEmpty(azureStorageEnvironment)) ? azureStorageEnvironment : "blob.core.windows.net";
             AzureStorageCustomDomain = customDomain;
             AzureStorageUploadPath = uploadPath;
+            AzureStorageCacheControl = cacheControl;
         }
 
         public override UploadResult Upload(Stream stream, string fileName)
@@ -106,6 +108,14 @@ namespace ShareX.UploadersLib.FileUploaders
             requestHeaders["x-ms-blob-type"] = "BlockBlob";
 
             string canonicalizedHeaders = $"x-ms-blob-type:BlockBlob\nx-ms-date:{date}\nx-ms-version:{APIVersion}\n";
+
+            if (!string.IsNullOrEmpty(AzureStorageCacheControl))
+            {
+                requestHeaders["x-ms-blob-cache-control"] = AzureStorageCacheControl;
+
+                canonicalizedHeaders = $"x-ms-blob-cache-control:{AzureStorageCacheControl}\n{canonicalizedHeaders}";
+            }
+
             string canonicalizedResource = $"/{AzureStorageAccountName}/{AzureStorageContainer}/{uploadPath}";
             string stringToSign = GenerateStringToSign(canonicalizedHeaders, canonicalizedResource, stream.Length.ToString(), contentType);
 

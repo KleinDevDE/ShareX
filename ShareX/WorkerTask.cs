@@ -614,6 +614,16 @@ namespace ShareX
                 return true;
             }
 
+            if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.BeautifyImage))
+            {
+                Image = TaskHelpers.BeautifyImage(Image, Info.TaskSettings);
+
+                if (Image == null)
+                {
+                    return false;
+                }
+            }
+
             if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.AddImageEffects))
             {
                 Image = TaskHelpers.ApplyImageEffects(Image, Info.TaskSettings.ImageSettingsReference);
@@ -644,7 +654,7 @@ namespace ShareX
             if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.PinToScreen))
             {
                 Image imageCopy = Image.CloneSafe();
-                threadWorker.InvokeAsync(() => TaskHelpers.PinToScreen(imageCopy));
+                TaskHelpers.PinToScreen(imageCopy);
             }
 
             if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.SendImageToPrinter))
@@ -802,7 +812,7 @@ namespace ShareX
 
                 if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.ScanQRCode) && Info.DataType == EDataType.Image)
                 {
-                    QRCodeForm.OpenFormDecodeFromFile(Info.FilePath).ShowDialog();
+                    QRCodeForm.OpenFormScanFromImageFile(Info.FilePath).ShowDialog();
                 }
             }
         }

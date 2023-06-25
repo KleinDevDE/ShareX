@@ -120,16 +120,19 @@ namespace ShareX
             cbTrayMiddleClickAction.SelectedIndex = (int)Program.Settings.TrayMiddleClickAction;
 
 #if STEAM || MicrosoftStore
+            cbAutoCheckUpdate.Visible = false;
             cbCheckPreReleaseUpdates.Visible = false;
             btnCheckDevBuild.Visible = false;
 #else
             if (SystemOptions.DisableUpdateCheck)
             {
+                cbAutoCheckUpdate.Visible = false;
                 cbCheckPreReleaseUpdates.Visible = false;
                 btnCheckDevBuild.Visible = false;
             }
             else
             {
+                cbAutoCheckUpdate.Checked = Program.Settings.AutoCheckUpdate;
                 cbCheckPreReleaseUpdates.Checked = Program.Settings.CheckPreReleaseUpdates;
             }
 #endif
@@ -443,6 +446,11 @@ namespace ShareX
             new QuickTaskMenuEditorForm().ShowDialog();
         }
 
+        private void cbAutoCheckUpdate_CheckedChanged(object sender, EventArgs e)
+        {
+            Program.Settings.AutoCheckUpdate = cbAutoCheckUpdate.Checked;
+        }
+
         private void cbCheckPreReleaseUpdates_CheckedChanged(object sender, EventArgs e)
         {
             Program.Settings.CheckPreReleaseUpdates = cbCheckPreReleaseUpdates.Checked;
@@ -745,7 +753,7 @@ namespace ShareX
                 using (SaveFileDialog sfd = new SaveFileDialog())
                 {
                     sfd.DefaultExt = "sxb";
-                    sfd.FileName = $"ShareX-{Application.ProductVersion}-backup.sxb";
+                    sfd.FileName = $"ShareX-{Helpers.GetApplicationVersion()}-backup.sxb";
                     sfd.Filter = "ShareX backup (*.sxb)|*.sxb|All files (*.*)|*.*";
 
                     if (sfd.ShowDialog() == DialogResult.OK)

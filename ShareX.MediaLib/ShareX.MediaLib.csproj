@@ -87,6 +87,12 @@
     <Compile Include="FFmpegCLIManager.cs" />
     <Compile Include="FFmpegDownloader.cs" />
     <Compile Include="FFmpegGitHubDownloader.cs" />
+    <Compile Include="Forms\ImageBeautifierForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ImageBeautifierForm.Designer.cs">
+      <DependentUpon>ImageBeautifierForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ImageCombinerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +123,8 @@
     <Compile Include="Forms\VideoThumbnailerForm.Designer.cs">
       <DependentUpon>VideoThumbnailerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImageBeautifier.cs" />
+    <Compile Include="ImageBeautifierOptions.cs" />
     <Compile Include="ImageCombinerOptions.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -137,6 +145,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\ImageBeautifierForm.resx">
+      <DependentUpon>ImageBeautifierForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageCombinerForm.de.resx">
       <DependentUpon>ImageCombinerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -147,6 +158,9 @@
       <DependentUpon>ImageCombinerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageCombinerForm.fr.resx">
+      <DependentUpon>ImageCombinerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageCombinerForm.he-IL.resx">
       <DependentUpon>ImageCombinerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageCombinerForm.id-ID.resx">
@@ -203,6 +217,9 @@
     <EmbeddedResource Include="Forms\ImageSplitterForm.fr.resx">
       <DependentUpon>ImageSplitterForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSplitterForm.he-IL.resx">
+      <DependentUpon>ImageSplitterForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageSplitterForm.ja-JP.resx">
       <DependentUpon>ImageSplitterForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -246,6 +263,9 @@
       <DependentUpon>ImageThumbnailerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageThumbnailerForm.fr.resx">
+      <DependentUpon>ImageThumbnailerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageThumbnailerForm.he-IL.resx">
       <DependentUpon>ImageThumbnailerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageThumbnailerForm.id-ID.resx">
@@ -293,6 +313,9 @@
     <EmbeddedResource Include="Forms\VideoConverterForm.fr.resx">
       <DependentUpon>VideoConverterForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VideoConverterForm.he-IL.resx">
+      <DependentUpon>VideoConverterForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\VideoConverterForm.ja-JP.resx">
       <DependentUpon>VideoConverterForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -336,6 +359,9 @@
       <DependentUpon>VideoThumbnailerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\VideoThumbnailerForm.fr.resx">
+      <DependentUpon>VideoThumbnailerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VideoThumbnailerForm.he-IL.resx">
       <DependentUpon>VideoThumbnailerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\VideoThumbnailerForm.id-ID.resx">
@@ -390,6 +416,7 @@
     <EmbeddedResource Include="Properties\Resources.es-MX.resx" />
     <EmbeddedResource Include="Properties\Resources.fa-IR.resx" />
     <EmbeddedResource Include="Properties\Resources.fr.resx" />
+    <EmbeddedResource Include="Properties\Resources.he-IL.resx" />
     <EmbeddedResource Include="Properties\Resources.id-ID.resx" />
     <EmbeddedResource Include="Properties\Resources.it-IT.resx" />
     <EmbeddedResource Include="Properties\Resources.ja-JP.resx" />
@@ -409,6 +436,27 @@
     <EmbeddedResource Include="Properties\Resources.vi-VN.resx" />
     <EmbeddedResource Include="Properties\Resources.zh-CN.resx" />
     <EmbeddedResource Include="Properties\Resources.zh-TW.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document-copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disk-black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disks-black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\upload-cloud.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\printer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minus-white.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

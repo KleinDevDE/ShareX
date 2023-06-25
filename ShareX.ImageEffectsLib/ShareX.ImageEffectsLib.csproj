@@ -109,6 +109,7 @@
     <Compile Include="Adjustments\SelectiveColor.cs" />
     <Compile Include="Adjustments\Sepia.cs" />
     <Compile Include="Adjustments\MatrixColor.cs" />
+    <Compile Include="Drawings\DrawBackgroundImage.cs" />
     <Compile Include="Drawings\DrawCheckerboard.cs" />
     <Compile Include="Drawings\DrawImage.cs" />
     <Compile Include="Drawings\DrawParticles.cs" />
@@ -187,6 +188,9 @@
     <EmbeddedResource Include="Forms\ImageEffectPackagerForm.fr.resx">
       <DependentUpon>ImageEffectPackagerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageEffectPackagerForm.he-IL.resx">
+      <DependentUpon>ImageEffectPackagerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageEffectPackagerForm.ja-JP.resx">
       <DependentUpon>ImageEffectPackagerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -227,6 +231,9 @@
       <DependentUpon>ImageEffectsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageEffectsForm.fr.resx">
+      <DependentUpon>ImageEffectsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageEffectsForm.he-IL.resx">
       <DependentUpon>ImageEffectsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageEffectsForm.hu.resx">
@@ -285,6 +292,7 @@
     <EmbeddedResource Include="Properties\Resources.es.resx" />
     <EmbeddedResource Include="Properties\Resources.fa-IR.resx" />
     <EmbeddedResource Include="Properties\Resources.fr.resx" />
+    <EmbeddedResource Include="Properties\Resources.he-IL.resx" />
     <EmbeddedResource Include="Properties\Resources.hu.resx" />
     <EmbeddedResource Include="Properties\Resources.id-ID.resx" />
     <EmbeddedResource Include="Properties\Resources.it-IT.resx" />
@@ -308,7 +316,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.2</Version>
+      <Version>13.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

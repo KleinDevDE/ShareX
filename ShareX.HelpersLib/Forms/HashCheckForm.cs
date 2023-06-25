@@ -40,7 +40,7 @@ namespace ShareX.HelpersLib
         public HashCheckForm()
         {
             InitializeComponent();
-            ShareXResources.ApplyTheme(this);
+            ShareXResources.ApplyTheme(this, true);
 
             UpdateCompareControls();
             cbHashType.Items.AddRange(Helpers.GetEnumDescriptions<HashType>());

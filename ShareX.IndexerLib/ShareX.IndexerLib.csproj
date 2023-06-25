@@ -118,6 +118,9 @@
     <EmbeddedResource Include="Forms\DirectoryIndexerForm.fr.resx">
       <DependentUpon>DirectoryIndexerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DirectoryIndexerForm.he-IL.resx">
+      <DependentUpon>DirectoryIndexerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\DirectoryIndexerForm.ja-JP.resx">
       <DependentUpon>DirectoryIndexerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -168,7 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.2</Version>
+      <Version>13.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

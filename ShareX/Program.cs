@@ -109,7 +109,7 @@ namespace ShareX
             }
         }
 
-        public static bool Dev { get; } = false;
+        public static bool Dev { get; } = true;
         public static bool MultiInstance { get; private set; }
         public static bool Portable { get; private set; }
         public static bool SilentRun { get; private set; }
@@ -355,7 +355,7 @@ namespace ShareX
             SettingManager.LoadInitialSettings();
 
             Uploader.UpdateServicePointManager();
-            UpdateManager = new GitHubUpdateManager("ShareX", "ShareX", Dev, Portable);
+            UpdateManager = new GitHubUpdateManager("ShareX", "ShareX", Portable);
             LanguageHelper.ChangeLanguage(Settings.Language);
             CleanupManager.CleanupAsync();
             Helpers.TryFixHandCursor();

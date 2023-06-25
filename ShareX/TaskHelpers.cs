@@ -129,7 +129,7 @@ namespace ShareX
                     new CaptureLastRegion().Capture(safeTaskSettings);
                     break;
                 case HotkeyType.ScrollingCapture:
-                    OpenScrollingCapture(safeTaskSettings, true);
+                    OpenScrollingCapture(safeTaskSettings);
                     break;
                 case HotkeyType.AutoCapture:
                     OpenAutoCapture(safeTaskSettings);
@@ -201,6 +201,16 @@ namespace ShareX
                     else
                     {
                         OpenImageEditor(safeTaskSettings);
+                    }
+                    break;
+                case HotkeyType.ImageBeautifier:
+                    if (command != null && !string.IsNullOrEmpty(command.Parameter) && File.Exists(command.Parameter))
+                    {
+                        OpenImageBeautifier(command.Parameter, safeTaskSettings);
+                    }
+                    else
+                    {
+                        OpenImageBeautifier(safeTaskSettings);
                     }
                     break;
                 case HotkeyType.ImageEffects:
@@ -682,13 +692,12 @@ namespace ShareX
             ScreenRecordManager.AbortRecording();
         }
 
-        public static void OpenScrollingCapture(TaskSettings taskSettings = null, bool forceSelection = false)
+        public static void OpenScrollingCapture(TaskSettings taskSettings = null)
         {
             if (taskSettings == null) taskSettings = TaskSettings.GetDefaultTaskSettings();
 
-            ScrollingCaptureForm scrollingCaptureForm = new ScrollingCaptureForm(taskSettings.CaptureSettingsReference.ScrollingCaptureOptions,
-                taskSettings.CaptureSettings.SurfaceOptions, forceSelection);
-            scrollingCaptureForm.ImageProcessRequested += img => UploadManager.RunImageTask(img, taskSettings);
+            ScrollingCaptureForm scrollingCaptureForm = new ScrollingCaptureForm(taskSettings.CaptureSettingsReference.ScrollingCaptureOptions);
+            scrollingCaptureForm.UploadRequested += img => UploadManager.RunImageTask(img, taskSettings);
             scrollingCaptureForm.Show();
         }
 
@@ -1020,7 +1029,10 @@ namespace ShareX
 
                         form.CopyImageRequested += output =>
                         {
-                            Program.MainForm.InvokeSafe(() => ClipboardHelpers.CopyImage(output));
+                            Program.MainForm.InvokeSafe(() =>
+                            {
+                                ClipboardHelpers.CopyImage(output);
+                            });
                         };
 
                         form.UploadImageRequested += output =>
@@ -1035,7 +1047,10 @@ namespace ShareX
                         {
                             Program.MainForm.InvokeSafe(() =>
                             {
-                                using (output) { PrintImage(output); }
+                                using (output)
+                                {
+                                    PrintImage(output);
+                                }
                             });
                         };
 
@@ -1060,9 +1075,72 @@ namespace ShareX
             return null;
         }
 
+        public static void OpenImageBeautifier(TaskSettings taskSettings = null)
+        {
+            string filePath = ImageHelpers.OpenImageFileDialog();
+
+            OpenImageBeautifier(filePath, taskSettings);
+        }
+
+        public static void OpenImageBeautifier(string filePath, TaskSettings taskSettings = null)
+        {
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                if (taskSettings == null) taskSettings = TaskSettings.GetDefaultTaskSettings();
+
+                ImageBeautifierForm imageBeautifierForm = new ImageBeautifierForm(filePath, taskSettings.ToolsSettingsReference.ImageBeautifierOptions);
+
+                imageBeautifierForm.UploadImageRequested += output =>
+                {
+                    UploadManager.UploadImage(output, taskSettings);
+                };
+
+                imageBeautifierForm.PrintImageRequested += output =>
+                {
+                    using (output)
+                    {
+                        PrintImage(output);
+                    }
+                };
+
+                imageBeautifierForm.Show();
+            }
+        }
+
+        public static Bitmap BeautifyImage(Bitmap bmp, TaskSettings taskSettings = null)
+        {
+            if (bmp != null)
+            {
+                if (taskSettings == null) taskSettings = TaskSettings.GetDefaultTaskSettings();
+
+                using (ImageBeautifierForm imageBeautifierForm = new ImageBeautifierForm(bmp, taskSettings.ToolsSettingsReference.ImageBeautifierOptions))
+                {
+                    imageBeautifierForm.UploadImageRequested += output =>
+                    {
+                        UploadManager.UploadImage(output, taskSettings);
+                    };
+
+                    imageBeautifierForm.PrintImageRequested += output =>
+                    {
+                        using (output)
+                        {
+                            PrintImage(output);
+                        }
+                    };
+
+                    imageBeautifierForm.ShowDialog();
+
+                    return (Bitmap)imageBeautifierForm.PreviewImage.Clone();
+                }
+            }
+
+            return null;
+        }
+
         public static void OpenImageEffects(TaskSettings taskSettings = null)
         {
             string filePath = ImageHelpers.OpenImageFileDialog();
+
             OpenImageEffects(filePath, taskSettings);
         }
 
@@ -1181,12 +1259,12 @@ namespace ShareX
 
         public static void OpenQRCode()
         {
-            QRCodeForm.EncodeClipboard().Show();
+            QRCodeForm.GenerateQRCodeFromClipboard().Show();
         }
 
         public static void OpenQRCodeDecodeFromScreen()
         {
-            QRCodeForm.OpenFormDecodeFromScreen();
+            QRCodeForm.OpenFormScanFromScreen();
         }
 
         public static void OpenRuler(TaskSettings taskSettings = null)
@@ -1312,35 +1390,33 @@ namespace ShareX
             }
         }
 
-        public static void PinToScreen(Image image, Point? location = null)
+        public static void PinToScreen(Image image, Point? location = null, PinToScreenOptions options = null)
         {
             if (image != null)
             {
-                PinToScreenOptions options = new PinToScreenOptions();
+                if (options == null)
+                {
+                    options = new PinToScreenOptions();
+                }
+
                 options.BackgroundColor = ShareXResources.Theme.LightBackgroundColor;
 
-                PinToScreenForm form = new PinToScreenForm(image, options, location);
-                form.Show();
+                PinToScreenForm.PinToScreenAsync(image, options, location);
             }
         }
 
         public static void PinToScreen(string filePath)
         {
             Image image = ImageHelpers.LoadImage(filePath);
+
             PinToScreen(image);
         }
 
         public static void PinToScreenFromScreen()
         {
-            if (RegionCaptureTasks.GetRectangleRegion(out Rectangle rect))
-            {
-                Image image = new Screenshot().CaptureRectangle(rect);
+            Image image = RegionCaptureTasks.GetRegionImage(out Rectangle rect);
 
-                if (image != null)
-                {
-                    PinToScreen(image, rect.Location);
-                }
-            }
+            PinToScreen(image, rect.Location);
         }
 
         public static void PinToScreenFromClipboard()
@@ -1550,6 +1626,7 @@ namespace ShareX
                     default: throw new Exception("Icon missing for after capture task: " + afterCaptureTask);
                     case AfterCaptureTasks.ShowQuickTaskMenu: return Resources.ui_menu_blue;
                     case AfterCaptureTasks.ShowAfterCaptureWindow: return Resources.application_text_image;
+                    case AfterCaptureTasks.BeautifyImage: return Resources.picture_sunset;
                     case AfterCaptureTasks.AddImageEffects: return Resources.image_saturation;
                     case AfterCaptureTasks.AnnotateImage: return Resources.image_pencil;
                     case AfterCaptureTasks.CopyImageToClipboard: return Resources.clipboard_paste_image;
@@ -1632,6 +1709,7 @@ namespace ShareX
                     case HotkeyType.PinToScreenFromClipboard: return Resources.pin;
                     case HotkeyType.PinToScreenFromFile: return Resources.pin;
                     case HotkeyType.ImageEditor: return Resources.image_pencil;
+                    case HotkeyType.ImageBeautifier: return Resources.picture_sunset;
                     case HotkeyType.ImageEffects: return Resources.image_saturation;
                     case HotkeyType.ImageViewer: return Resources.images_flickr;
                     case HotkeyType.ImageCombiner: return Resources.document_break;
@@ -1878,7 +1956,14 @@ namespace ShareX
 
             await updateChecker.CheckUpdateAsync();
 
-            UpdateMessageBox.Start(updateChecker, true, true);
+            if (updateChecker.Status == UpdateStatus.UpdateAvailable)
+            {
+                UpdateMessageBox.Start(updateChecker);
+            }
+            else if (updateChecker.Status == UpdateStatus.UpToDate)
+            {
+                MessageBox.Show(Resources.ShareXIsUpToDate, "ShareX", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         public static async Task DownloadAppVeyorBuild()
@@ -1892,10 +1977,10 @@ namespace ShareX
 
             await updateChecker.CheckUpdateAsync();
 
-            UpdateMessageBox.Start(updateChecker, true, true);
+            UpdateMessageBox.Start(updateChecker);
         }
 
-        public static Image CreateQRCode(string text, int width, int height)
+        public static Image GenerateQRCode(string text, int size)
         {
             if (CheckQRCodeContent(text))
             {
@@ -1906,9 +1991,12 @@ namespace ShareX
                         Format = BarcodeFormat.QR_CODE,
                         Options = new QrCodeEncodingOptions
                         {
-                            Width = width,
-                            Height = height,
-                            CharacterSet = "UTF-8"
+                            Width = size,
+                            Height = size,
+                            CharacterSet = "UTF-8",
+                            PureBarcode = true,
+                            NoPadding = false,
+                            Margin = 1
                         },
                         Renderer = new BitmapRenderer()
                     };
@@ -1922,11 +2010,6 @@ namespace ShareX
             }
 
             return null;
-        }
-
-        public static Image CreateQRCode(string text, int size)
-        {
-            return CreateQRCode(text, size, size);
         }
 
         public static string[] BarcodeScan(Bitmap bmp, bool scanQRCodeOnly = false)

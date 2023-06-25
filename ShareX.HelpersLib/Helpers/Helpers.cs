@@ -277,6 +277,17 @@ namespace ShareX.HelpersLib
             return sb.ToString();
         }
 
+        public static string GetApplicationVersion(bool includeRevision = false)
+        {
+            Version version = Version.Parse(Application.ProductVersion);
+            string result = $"{version.Major}.{version.Minor}.{version.Build}";
+            if (includeRevision)
+            {
+                result = $"{result}.{version.Revision}";
+            }
+            return result;
+        }
+
         /// <summary>
         /// If version1 newer than version2 = 1
         /// If version1 equal to version2 = 0
@@ -302,9 +313,9 @@ namespace ShareX.HelpersLib
         /// If version equal to ApplicationVersion = 0
         /// If version older than ApplicationVersion = -1
         /// </summary>
-        public static int CompareApplicationVersion(string version)
+        public static int CompareApplicationVersion(string version, bool includeRevision = false)
         {
-            return CompareVersion(version, Application.ProductVersion);
+            return CompareVersion(version, GetApplicationVersion(includeRevision));
         }
 
         public static Version NormalizeVersion(string version)
@@ -462,6 +473,18 @@ namespace ShareX.HelpersLib
         public static Point GetPosition(ContentAlignment placement, int offset, Size backgroundSize, Size objectSize)
         {
             return GetPosition(placement, new Point(offset, offset), backgroundSize, objectSize);
+        }
+
+        public static Point GetPosition(ContentAlignment placement, int offset, Rectangle background, Size objectSize)
+        {
+            return GetPosition(placement, new Point(offset, offset), background, objectSize);
+        }
+
+        public static Point GetPosition(ContentAlignment placement, Point offset, Rectangle background, Size objectSize)
+        {
+            Point position = GetPosition(placement, offset, background.Size, objectSize);
+
+            return new Point(background.X + position.X, background.Y + position.Y);
         }
 
         public static Point GetPosition(ContentAlignment placement, Point offset, Size backgroundSize, Size objectSize)
@@ -861,24 +884,15 @@ namespace ShareX.HelpersLib
             using (MemoryStream ms = new MemoryStream())
             using (XmlTextWriter writer = new XmlTextWriter(ms, Encoding.Unicode))
             {
-                // Load the XmlDocument with the XML.
+                writer.Formatting = Formatting.Indented;
+
                 XmlDocument document = new XmlDocument();
                 document.LoadXml(xml);
-
-                writer.Formatting = System.Xml.Formatting.Indented;
-
-                // Write the XML into a formatting XmlTextWriter
                 document.WriteContentTo(writer);
                 writer.Flush();
                 ms.Flush();
-
-                // Have to rewind the MemoryStream in order to read its contents.
                 ms.Position = 0;
-
-                // Read MemoryStream contents into a StreamReader.
                 StreamReader sReader = new StreamReader(ms);
-
-                // Extract the text from the StreamReader.
                 return sReader.ReadToEnd();
             }
         }
@@ -890,28 +904,48 @@ namespace ShareX.HelpersLib
 
         public static Icon GetProgressIcon(int percentage, Color color)
         {
-            percentage = percentage.Clamp(0, 99);
+            percentage = percentage.Clamp(0, 100);
 
             Size size = SystemInformation.SmallIconSize;
+
             using (Bitmap bmp = new Bitmap(size.Width, size.Height))
             using (Graphics g = Graphics.FromImage(bmp))
             {
+                using (Brush brush = new SolidBrush(Color.FromArgb(39, 39, 39)))
+                {
+                    g.FillRectangle(brush, 0, 0, size.Width, size.Height);
+                }
+
                 int y = (int)(size.Height * (percentage / 100f));
 
                 if (y > 0)
                 {
                     using (Brush brush = new SolidBrush(color))
                     {
-                        g.FillRectangle(brush, 0, size.Height - 1 - y, size.Width, y);
+                        g.FillRectangle(brush, 0, size.Height - y, size.Width, y);
+                    }
+
+                    if (y < size.Height)
+                    {
+                        using (Pen pen = new Pen(ColorHelpers.LighterColor(color, 0.3f)))
+                        {
+                            g.DrawLine(pen, 0, size.Height - y, size.Width - 1, size.Height - y);
+                        }
                     }
                 }
 
                 using (Font font = new Font("Arial", 10))
                 using (StringFormat sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
                 {
-                    g.DrawString(percentage.ToString(), font, Brushes.Black, size.Width / 2f, size.Height / 2f, sf);
-                    g.DrawString(percentage.ToString(), font, Brushes.White, size.Width / 2f, (size.Height / 2f) - 1, sf);
+                    percentage = percentage.Clamp(0, 99);
+
+                    g.DrawString(percentage.ToString(), font, Brushes.White, size.Width / 2f, size.Height / 2f, sf);
                 }
+
+                bmp.SetPixel(0, 0, Color.Transparent);
+                bmp.SetPixel(bmp.Width - 1, 0, Color.Transparent);
+                bmp.SetPixel(0, bmp.Height - 1, Color.Transparent);
+                bmp.SetPixel(bmp.Width - 1, bmp.Height - 1, Color.Transparent);
 
                 return Icon.FromHandle(bmp.GetHicon());
             }
@@ -986,6 +1020,15 @@ namespace ShareX.HelpersLib
             }
 
             return true;
+        }
+
+        public static string GetDesktopWallpaperFilePath()
+        {
+            byte[] transcodedImageCache = (byte[])RegistryHelpers.GetValue(@"Control Panel\Desktop", "TranscodedImageCache");
+            byte[] transcodedImageCacheDest = new byte[transcodedImageCache.Length - 24];
+            Array.Copy(transcodedImageCache, 24, transcodedImageCacheDest, 0, transcodedImageCacheDest.Length);
+            string wallpaperFilePath = Encoding.Unicode.GetString(transcodedImageCacheDest);
+            return wallpaperFilePath.TrimEnd('\0');
         }
     }
 }

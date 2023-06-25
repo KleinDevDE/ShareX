@@ -30,16 +30,17 @@ namespace ShareX.HelpersLib
 {
     public partial class OutputBox : Form
     {
-        private bool scrollToEnd;
+        public bool ScrollToEnd { get; private set; }
 
-        public OutputBox(string text, string title, bool scrollToEnd = false)
+        private OutputBox(string text, string title, bool scrollToEnd = false)
         {
             InitializeComponent();
-            ShareXResources.ApplyTheme(this);
+            rtbText.AddContextMenu();
+            ShareXResources.ApplyTheme(this, true);
 
             Text = "ShareX - " + title;
-            txtText.Text = text;
-            this.scrollToEnd = scrollToEnd;
+            rtbText.Text = text;
+            ScrollToEnd = scrollToEnd;
         }
 
         public static void Show(string text, string title, bool scrollToEnd = false)
@@ -54,22 +55,15 @@ namespace ShareX.HelpersLib
         {
             this.ForceActivate();
 
-            if (scrollToEnd)
+            rtbText.SelectionStart = rtbText.TextLength;
+
+            if (ScrollToEnd)
             {
-                txtText.SelectionStart = txtText.TextLength;
-                txtText.ScrollToCaret();
+                NativeMethods.SendMessage(rtbText.Handle, (int)WindowsMessages.VSCROLL, (int)ScrollBarCommands.SB_BOTTOM, 0);
             }
             else
             {
-                txtText.Select(0, 0);
-            }
-        }
-
-        private void txtText_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape)
-            {
-                Close();
+                NativeMethods.SendMessage(rtbText.Handle, (int)WindowsMessages.VSCROLL, (int)ScrollBarCommands.SB_TOP, 0);
             }
         }
     }

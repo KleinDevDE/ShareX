@@ -76,6 +76,8 @@ namespace ShareX.HelpersLib
             }
         }
 
+        public IntPtr Parent => NativeMethods.GetParent(Handle);
+
         public Rectangle Rectangle => CaptureHelpers.GetWindowRectangle(Handle);
 
         public Rectangle ClientRectangle => NativeMethods.GetClientRect(Handle);
@@ -139,6 +141,14 @@ namespace ShareX.HelpersLib
             if (IsHandleCreated)
             {
                 NativeMethods.SetForegroundWindow(Handle);
+            }
+        }
+
+        public void BringToFront()
+        {
+            if (IsHandleCreated)
+            {
+                SetWindowPos(SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE);
             }
         }
 

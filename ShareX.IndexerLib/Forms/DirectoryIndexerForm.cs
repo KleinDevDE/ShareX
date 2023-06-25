@@ -43,7 +43,7 @@ namespace ShareX.IndexerLib
         public DirectoryIndexerForm(IndexerSettings settings)
         {
             InitializeComponent();
-            ShareXResources.ApplyTheme(this);
+            ShareXResources.ApplyTheme(this, true);
 
             Settings = settings;
             pgSettings.SelectedObject = Settings;

@@ -48,7 +48,7 @@ namespace ShareX
             Options = options;
 
             InitializeComponent();
-            ShareXResources.ApplyTheme(this);
+            ShareXResources.ApplyTheme(this, true);
 
             OCRLanguage[] languages = OCRHelper.AvailableLanguages.OrderBy(x => x.DisplayName).ToArray();
 
@@ -169,14 +169,6 @@ namespace ShareX
         private async void OCRForm_Shown(object sender, EventArgs e)
         {
             await OCR(bmpSource);
-        }
-
-        private void OCRForm_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape)
-            {
-                Close();
-            }
         }
 
         private async void btnSelectRegion_Click(object sender, EventArgs e)

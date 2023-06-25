@@ -615,9 +615,10 @@ namespace ShareX
         {
             cmsTaskInfo.SuspendLayout();
 
-            tsmiStopUpload.Visible = tsmiOpen.Visible = tsmiCopy.Visible = tsmiShowErrors.Visible = tsmiShowResponse.Visible = tsmiGoogleImageSearch.Visible =
-                tsmiBingVisualSearch.Visible = tsmiShowQRCode.Visible = tsmiOCRImage.Visible = tsmiCombineImages.Visible = tsmiUploadSelectedFile.Visible =
-                tsmiDownloadSelectedURL.Visible = tsmiEditSelectedFile.Visible = tsmiAddImageEffects.Visible = tsmiPinSelectedFile.Visible = tsmiRunAction.Visible =
+            tsmiStopUpload.Visible = tsmiOpen.Visible = tsmiCopy.Visible = tsmiShowErrors.Visible = tsmiShowResponse.Visible =
+                tsmiGoogleImageSearch.Visible = tsmiBingVisualSearch.Visible = tsmiShowQRCode.Visible = tsmiOCRImage.Visible =
+                tsmiCombineImages.Visible = tsmiUploadSelectedFile.Visible = tsmiDownloadSelectedURL.Visible = tsmiEditSelectedFile.Visible =
+                tsmiBeautifyImage.Visible = tsmiAddImageEffects.Visible = tsmiPinSelectedFile.Visible = tsmiRunAction.Visible =
                 tsmiDeleteSelectedItem.Visible = tsmiDeleteSelectedFile.Visible = tsmiShortenSelectedURL.Visible = tsmiShareSelectedURL.Visible = false;
 
             if (Program.Settings.TaskViewMode == TaskViewMode.ListView)
@@ -725,6 +726,7 @@ namespace ShareX
                     tsmiUploadSelectedFile.Visible = uim.SelectedItem.IsFileExist;
                     tsmiDownloadSelectedURL.Visible = uim.SelectedItem.IsFileURL;
                     tsmiEditSelectedFile.Visible = uim.SelectedItem.IsImageFile;
+                    tsmiBeautifyImage.Visible = uim.SelectedItem.IsImageFile;
                     tsmiAddImageEffects.Visible = uim.SelectedItem.IsImageFile;
                     tsmiPinSelectedFile.Visible = uim.SelectedItem.IsImageFile;
                     UpdateActionsMenu(uim.SelectedItem.Info.FilePath);
@@ -1244,8 +1246,19 @@ namespace ShareX
 
         public void ForceClose()
         {
-            forceClose = true;
-            Close();
+            if (ScreenRecordManager.IsRecording)
+            {
+                if (MessageBox.Show(Resources.ShareXCannotBeClosedWhileScreenRecordingIsActive, "ShareX",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    ScreenRecordManager.AbortRecording();
+                }
+            }
+            else
+            {
+                forceClose = true;
+                Close();
+            }
         }
 
         #region Form events
@@ -1451,7 +1464,7 @@ namespace ShareX
                     break;
             }
 
-            e.Handled = e.SuppressKeyPress = true;
+            e.SuppressKeyPress = true;
         }
 
         private void pbPreview_MouseDown(object sender, MouseEventArgs e)
@@ -1717,6 +1730,11 @@ namespace ShareX
         private void tsmiImageEditor_Click(object sender, EventArgs e)
         {
             TaskHelpers.OpenImageEditor();
+        }
+
+        private void tsmiImageBeautifier_Click(object sender, EventArgs e)
+        {
+            TaskHelpers.OpenImageBeautifier();
         }
 
         private void tsmiImageEffects_Click(object sender, EventArgs e)
@@ -2324,6 +2342,11 @@ namespace ShareX
         private void tsmiEditSelectedFile_Click(object sender, EventArgs e)
         {
             uim.EditImage();
+        }
+
+        private void tsmiBeautifyImage_Click(object sender, EventArgs e)
+        {
+            uim.BeautifyImage();
         }
 
         private void tsmiAddImageEffects_Click(object sender, EventArgs e)

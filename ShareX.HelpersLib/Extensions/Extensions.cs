@@ -144,6 +144,11 @@ namespace ShareX.HelpersLib
             return new Point(point.X + offset.X, point.Y + offset.Y);
         }
 
+        public static Point Add(this Point point, int offset)
+        {
+            return point.Add(offset, offset);
+        }
+
         public static PointF Add(this PointF point, float offsetX, float offsetY)
         {
             return new PointF(point.X + offsetX, point.Y + offsetY);
@@ -340,8 +345,8 @@ namespace ShareX.HelpersLib
                 if (e.KeyData == (Keys.Control | Keys.A))
                 {
                     tb.SelectAll();
+
                     e.SuppressKeyPress = true;
-                    e.Handled = true;
                 }
             };
         }
@@ -415,11 +420,11 @@ namespace ShareX.HelpersLib
 
                 if (form.WindowState == FormWindowState.Minimized)
                 {
-                    form.WindowState = FormWindowState.Normal;
+                    NativeMethods.ShowWindow(form.Handle, (int)WindowShowStyle.Restore);
                 }
 
-                form.BringToFront();
                 form.Activate();
+                form.BringToFront();
             }
         }
 
@@ -917,6 +922,28 @@ namespace ShareX.HelpersLib
         public static void ChangeFontStyle(this Control control, FontStyle fontStyle)
         {
             control.Font = new Font(control.Font, fontStyle);
+        }
+
+        public static void CloseOnEscape(this Form form)
+        {
+            form.KeyPreview = true;
+
+            form.KeyDown += (sender, e) =>
+            {
+                if (e.KeyCode == Keys.Escape)
+                {
+                    e.SuppressKeyPress = true;
+                }
+            };
+
+            form.KeyUp += (sender, e) =>
+            {
+                if (e.KeyCode == Keys.Escape)
+                {
+                    form.DialogResult = DialogResult.Cancel;
+                    form.Close();
+                }
+            };
         }
     }
 }

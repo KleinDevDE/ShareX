@@ -41,7 +41,7 @@ namespace ShareX
             InitializeComponent();
             lblProductName.Text = Program.Title;
             pbLogo.Image = ShareXResources.Logo;
-            ShareXResources.ApplyTheme(this);
+            ShareXResources.ApplyTheme(this, true);
 
 #if STEAM
             uclUpdate.Visible = false;
@@ -97,6 +97,7 @@ McoreD: {Links.McoreD}
 {Resources.AboutForm_AboutForm_Language_ja_JP}: https://github.com/kanaxx
 {Resources.AboutForm_AboutForm_Language_ro}: https://github.com/Edward205
 {Resources.AboutForm_AboutForm_Language_pl}: https://github.com/RikoDEV
+{Resources.AboutForm_AboutForm_Language_he_IL}: https://github.com/E-RELevant
 ", FontStyle.Regular);
 
             rtbInfo.AppendLine(Resources.AboutForm_AboutForm_Credits, FontStyle.Bold, 13);
@@ -153,6 +154,7 @@ Blob Emoji: http://blobs.gg
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
     }
